@@ -10,14 +10,17 @@ class AdminController extends Controller
 {
     public function view_category(Request $request)
     {
-        $category_list = Category::orderby('id','desc')->paginate(2);
-        return view('admin.category',['category_list'=>$category_list]);
+        $category_list = Category::orderby('id', 'desc')->paginate(2);
+        return view('admin.category', ['category_list' => $category_list]);
 
     }
 
     public function add_category(Request $request)
     {
-
+        $request->validate([
+            'category_name' => 'required|string|max:16',
+            
+        ]);
         // dd($request->category_name);
         Category::create($_REQUEST);
 
@@ -25,14 +28,15 @@ class AdminController extends Controller
         return back()->with('success', 'Category added succesfully');
 
     }
-    
-    public function category_delete(Request $request, $id=false){
 
-//  dd($id);
-$delete=Category::find($id);
+    public function category_delete(Request $request, $id = false)
+    {
 
-$delete->delete();
+        //  dd($id);
+        $delete = Category::find($id);
 
-return back()->with('data_dlt' ,'data has been deleted successfully of id='.$id);
+        $delete->delete();
+
+        return back()->with('data_dlt', 'data has been deleted successfully of id=' . $id);
     }
 }

@@ -64,6 +64,16 @@
                                 {{ session('data_dlt') }}
                             </div>
                         @endif
+                        @if ($errors->any())
+
+                            <div class="alert alert-danger">
+
+                                @foreach ($errors->all() as $key => $value)
+                                    <p class="text-align-center">{{ $value }}</p>
+                                @endforeach
+                            </div>
+
+                        @endif
                         <h2 class="h2_font">Add category</h2>
 
                         <form action="add/category" method="POST">
@@ -86,19 +96,17 @@
                                 @foreach ($category_list as $key => $value)
                                     <td>{{ $value['category_name'] }}</td>
                                     <td><a onclick="return confirm('Are you sure to delete this record!')"
-                                        class="btn btn-danger"
-                                        href="{{ url('category_delete',$value->id) }}">Delete</a>
-                                </td>
+                                            class="btn btn-danger"
+                                            href="{{ url('category_delete', $value->id) }}">Delete</a>
+                                    </td>
                             </tr>
                             @endforeach
                         </table>
 
+                    </div>
 
-                        <div class="pagination">
-                            {{ $category_list->links()}}
-                                  </div>
-   
-   
+                    <div class="pagination">
+                        {{ $category_list->links('pagination::bootstrap-4') }}
                     </div>
                 </div>
             </div>
