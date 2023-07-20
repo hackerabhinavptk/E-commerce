@@ -107,6 +107,7 @@
 
                             <input type="file" class="input_color"  name="image"
                                 aria-describedby="emailHelp" placeholder="image"><br><br>
+                                
                             <input type="hidden" name="image" value="{{ $details->image }}">
 
                             <input type="hidden" value="{{ $details['id'] }}" name="id">

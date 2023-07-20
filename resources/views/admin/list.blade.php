@@ -103,7 +103,7 @@
 
                                         <a onclick="return confirm('Are you sure to edit this record!')"
                                         class="btn btn"
-                                        href="{{ url('edit_product', $value->id) }}">Edit</a>
+                                        href="{{ url('/', $value->id) }}">Edit</a>
                                 </td>
                                     
                             </tr>

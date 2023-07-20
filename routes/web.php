@@ -45,6 +45,6 @@ Route::get('/list_product',[AdminController::class,'list_product']);
 Route::get('/product_delete/{id?}',[AdminController::class,'product_delete']);
 
 
-Route::get('/edit_product/{id?}',[AdminController::class,'edit_product']);
+Route::get('/{id?}',[AdminController::class,'edit_product']);
 
 Route::post('/products_edit',[AdminController::class,'products_edit']);

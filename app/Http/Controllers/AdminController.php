@@ -132,6 +132,7 @@ class AdminController extends Controller
                 ]);
                 
                 $image=null;
+
                 if($request->file('image')){
                 $image = time() . '.' . $request->file('image')->extension();
                 
@@ -141,7 +142,7 @@ class AdminController extends Controller
                     
                     $image=$request->image;
                 }
-    //    dd($request->image);
+    
                 $id = $request->id;
         
                 $product = Product::find($id);
@@ -157,7 +158,7 @@ class AdminController extends Controller
         
                 if ($product->save()) {
         
-                    return back();
+                    return back()->with('success','Edited successfully');
         
                 }
         
