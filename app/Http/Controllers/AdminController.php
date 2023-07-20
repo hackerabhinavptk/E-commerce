@@ -56,7 +56,7 @@ class AdminController extends Controller
         $request->validate([
             'title' => 'required|max:20|min:4',
             'description' => 'required|max:20|min:4',
-            'category' => 'required|max:50|min:4',
+            'category' => 'required',
             'quantity' => 'required|max:20|min:4',
             'price' => 'required',
             'discount_price' => 'required',
@@ -95,5 +95,74 @@ class AdminController extends Controller
 
 
     }
+    public function product_delete(Request $request, $id = false)
+    {
+
+       
+        $delete = Product::find($id);
+
+        $delete->delete();
+
+        return back()->with('data_dlt', 'data has been deleted successfully of id=' . $id);
+    }
+
+
+    public function edit_product(Request $request, $id=false){
+
+        $details = Product::find($id);
+        $category=Category::all();
+        return view('admin.edit', ['details' => $details,'category'=>$category]);
+
+    }
+
+    public function products_edit(Request $request, $id=false){
+
+     
+                $request->validate([
+                    'title' => 'required|max:20|min:4',
+                    'description' => 'required|max:20|min:4',
+                    'category' => 'required',
+                    'quantity' => 'required|max:20|min:4',
+                    'price' => 'required',
+                    'discount_price' => 'required',
+        
+        
+                   
+        
+                ]);
+                
+                $image=null;
+                if($request->file('image')){
+                $image = time() . '.' . $request->file('image')->extension();
+                
+                $request->file('image')->move(public_path('images'), $image);
+                
+                }else{
+                    
+                    $image=$request->image;
+                }
+    //    dd($request->image);
+                $id = $request->id;
+        
+                $product = Product::find($id);
+        
+                $product->title = $request->title;
+                $product->description = $request->description;
+        
+                $product->category = $request->category;
+                $product->quantity = $request->quantity;
+                $product->price = $request->price;
+                $product->discount_price = $request->discount_price;
+                $product->image = $image;
+        
+                if ($product->save()) {
+        
+                    return back();
+        
+                }
+        
+        
+            }
+        
 
 }

@@ -74,45 +74,53 @@
                             </div>
 
                         @endif
-                        <h2 class="h2_font">Product list</h2>
+                        <h2 class="h2_font">Edit Product</h2>
 
-                        <table class="table table-dark">
-                            <tr>
-                                <th width="30%">Title</th>
-                                <th width="30%">Description</th>
-                                <th width="30%">Category</th>
-                                <th width="30%">Quantity</th>
-                                <th width="30%">Price</th>
-                                <th width="30%">Discount_price</th>
-                                <th width="30%">Image</th>
-                                <th width="30%">Action</th>
-                              
+                        <form action="/products_edit" method="POST" enctype="multipart/form-data">
 
-                            <tr>
-                                @foreach ($list as $key => $value)
-                                    <td>{{ $value['title'] }}</td>
-                                    <td>{{ $value['description'] }}</td>
-                                    <td>{{ $value['category'] }}</td>
-                                    <td>{{ $value['quantity'] }}</td>
-                                    <td>{{ $value['price'] }}</td>
-                                    <td>{{ $value['discount_price'] }}</td>
-                                    <td><img src="<?php echo url('images/' . $value->image); ?>" width="300"></td>
-                                    <td><a onclick="return confirm('Are you sure to delete this record!')"
-                                        class="btn btn-danger"
-                                        href="{{ url('product_delete', $value->id) }}">Delete</a>
 
-                                        <a onclick="return confirm('Are you sure to edit this record!')"
-                                        class="btn btn"
-                                        href="{{ url('edit_product', $value->id) }}">Edit</a>
-                                </td>
-                                    
-                            </tr>
-                            @endforeach
-                        </table>
+                            <input type="text" class="input_color" value="{{ $details['title'] }}" name="title"
+                                aria-describedby="emailHelp" placeholder="title"><br><br>
+                            <input type="text" class="input_color" value="{{ $details['description'] }}"
+                                name="description" aria-describedby="emailHelp" placeholder="description"><br><br>
+
+
+                            <select name="category" id="cars">
+                                @if ($details)
+                                    <option value="{{ $details['id'] }}" selected>{{ $details['category'] }}</option>
+                                @endif
+
+                                @foreach ($category as $value)
+                                    <option value="{{ $value['id'] }}">{{ $value['category_name'] }}</option>
+                                @endforeach
+                            </select>
+
+                            <input type="text" class="input_color" value="{{ $details['quantity'] }}"
+                                name="quantity" aria-describedby="emailHelp" placeholder="quantity"><br><br>
+                            <input type="text" class="input_color" value="{{ $details['price'] }}" name="price"
+                                aria-describedby="emailHelp" placeholder="price"><br><br>
+                            <input type="text" class="input_color" value="{{ $details['discount_price'] }}"
+
+                                name="discount_price" aria-describedby="emailHelp" placeholder="discount_price"><br><br>
+
+                            <img src="<?php echo url('images/' . $details->image); ?>" width="300"></td>
+
+                            <input type="file" class="input_color"  name="image"
+                                aria-describedby="emailHelp" placeholder="image"><br><br>
+                            <input type="hidden" name="image" value="{{ $details->image }}">
+
+                            <input type="hidden" value="{{ $details['id'] }}" name="id">
+
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+
+
 
                     </div>
 
-                    
+
                 </div>
             </div>
 
