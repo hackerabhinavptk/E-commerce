@@ -17,7 +17,15 @@ class UserTableFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => $this->faker->name,
+
+
+            'email' => $this->faker->text,
+            'password' => $this->faker->text,
+
+            'phone' => $this->faker->unique()->numerify('##########'),
+            'address' => $this->faker->title,
+
         ];
     }
 }

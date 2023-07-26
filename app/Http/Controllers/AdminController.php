@@ -57,7 +57,7 @@ class AdminController extends Controller
             'title' => 'required|max:20|min:4',
             'description' => 'required|max:20|min:4',
             'category' => 'required',
-            'quantity' => 'required|max:20|min:4',
+            'quantity' => 'required',
             'price' => 'required',
             'discount_price' => 'required',
 
@@ -126,9 +126,7 @@ class AdminController extends Controller
                     'price' => 'required',
                     'discount_price' => 'required',
         
-        
-                   
-        
+    
                 ]);
                 
                 $image=null;
@@ -164,6 +162,8 @@ class AdminController extends Controller
         
         
             }
+
+           
         
 
 }
