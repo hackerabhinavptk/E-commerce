@@ -89,6 +89,16 @@
         </a>
       </li>
 
+<li class="nav-item menu-items">
+        <a class="nav-link" href="{{URL('view_orders')}}">
+          <span class="menu-icon">
+            <i class="mdi mdi-playlist-play"></i>
+          </span>
+          <span class="menu-title">Orders</span>
+        </a>
+      </li>
+
+
       <li class="nav-item menu-items">
         <a class="nav-link" data-toggle="collapse" href="#ui-products" aria-expanded="false"
             aria-controls="ui-basic">

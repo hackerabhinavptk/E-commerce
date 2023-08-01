@@ -39,6 +39,9 @@ Route::get('category_delete/{id?}',[AdminController::class,'category_delete']);
 Route::get('/view_product',[AdminController::class,'view_product']);
 
 
+Route::get('/view_orders',[AdminController::class,'view_orders']);
+
+
 Route::post('/add_product',[AdminController::class,'add_product']);
 
 Route::get('/list_product',[AdminController::class,'list_product']);
@@ -65,24 +68,24 @@ Route::post('/showcart',[HomeController::class,'showcart']);
 
 Route::get('/showcart',[HomeController::class,'showcart']);
 
+Route::get('/show_order',[HomeController::class,'show_order']);
 
 
 Route::get('/delete/{id}',[HomeController::class,'cartdlt']);
 
 Route::get('/cash_order',[HomeController::class,'cash_order']);
 
-// Route::get('/stripe/{price}',[StripePaymentController::class,'stripe']);
-
-
-// Route::post('stripePost',[StripePaymentController::class,'stripePost']);
-
-
-
-// Route::get('stripe-form/{price?}', [StripePaymentController::class, 'form'])->name('stripeForm');
-// Route::post('stripe-form/submit', [StripePaymentController::class, 'submit'])->name('stripeSubmit');
-// Route::get('stripe-response/{id}', [StripePaymentController::class, 'response'])->name('stripeResponse');
-
 
 Route::get('/payments', [StripePaymentController::class, 'create']);
 Route::post('/payments', [StripePaymentController::class, 'store']);
 Route::get('/thankyou', [StripePaymentController::class, 'thankyou']);
+
+
+
+Route::get('/delivered/{id}', [AdminController::class, 'delivered']);
+
+
+Route::get('/print_pdf/{id}', [AdminController::class, 'pdf']);
+
+
+Route::post('/search', [AdminController::class, 'search']);

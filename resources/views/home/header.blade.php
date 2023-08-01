@@ -30,12 +30,21 @@
                     <li class="nav-item">
                         <a class="nav-link" href="contact.html">Contact</a>
                     </li>
+                    @if( $user_id = Auth::id())
                     <li class="nav-item">
                         <form method="POST" action="/showcart">
                             @csrf
                         <button class="nav-link"  >Cart</button>
                         </form>
                     </li>
+                    @endif
+
+@if( $user_id = Auth::id())
+<li class="nav-item">
+    <a class="nav-link" href="show_order">Orders</a>
+</li>
+
+@endif
 
                     <li class="nav-item">
                         <a class="nav-link" href="#">

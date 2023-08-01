@@ -1,4 +1,4 @@
-@extends('master')
+@extends('payments.master')
 
 @section('content')
     <div class="row">

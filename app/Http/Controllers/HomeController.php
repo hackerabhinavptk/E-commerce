@@ -20,7 +20,38 @@ class HomeController extends Controller
         $type = Auth::user()->usertype;
         if ($type != 0) {
 
-            return view('admin.home');
+            $products = Product::all();
+            $total_products = $products->count();
+
+            $order = Order::all();
+            $total_orders = $order->count();
+
+            // $customers= User::where('usertype', '!=','1' )->get();
+            $customers = Order::distinct('user_id');
+            $total_customers = $customers->count();
+
+
+            $revenue = Order::all('price', 'quantity');
+
+            $total_revenue = null;
+            foreach ($revenue as $key => $val) {
+
+                $total_revenue = $total_revenue + $val->quantity * $val->price;
+
+
+            }
+
+            $ordersdelivered = Order::where('delivery_status', 'delivered')->get();
+
+            $ordersDelivered = $ordersdelivered->count();
+
+            $orderspending = Order::where('payment_status', 'processing')->get();
+
+            $orders_pending = $orderspending->count();
+
+
+
+            return view('admin.home', ['total_products' => $total_products, 'total_orders' => $total_orders, 'total_customers' => $total_customers, 'total_revenue' => $total_revenue, 'orders_delivered' => $ordersDelivered,'orders_pending'=>$orders_pending]);
         } else {
 
             return view('home.userpage');
@@ -93,7 +124,7 @@ class HomeController extends Controller
     public function showcart(Request $request)
     {
         $products_id = [];
-
+        $product = null;
         $user_id = Auth::id();
 
         if ($user_id) {
@@ -113,8 +144,14 @@ class HomeController extends Controller
 
 
             }
+            if (!empty($products) && !empty($cart_details)) {
+                return view('home.cart', ['cart_details' => $cart_details, 'products' => $products]);
+            } else {
+                return view('home.cart');
+            }
 
-            return view('home.cart', ['cart_details' => $cart_details, 'products' => $products]);
+
+
         } else {
             return back();
         }
@@ -177,7 +214,14 @@ class HomeController extends Controller
 
     }
 
+    public function show_order(Request $request){
+
+        $orders=Order::all();
+return view('home.orders',['orders'=>$orders]);
+
+    } 
 
 
-   
+
+
 }

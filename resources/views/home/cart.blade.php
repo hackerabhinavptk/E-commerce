@@ -1,13 +1,14 @@
 
 <?php
-if ($cart_details) {
+
+if (!empty($cart_details)) {
     $sum = [];
     foreach ($cart_details as $key => $value) {
         $sum[] = $value['price'] * $value['quantity'];
     }
 }
 
-if ( $cart_details) {
+if (!empty($cart_details)) {
     $totaldiscount = 0;
 
     foreach ($cart_details as $key => $val) {
@@ -28,6 +29,7 @@ if ( $cart_details) {
 
 ?>
 
+<?php if(!empty($cart_details)&& !empty($products)){?>
 <html>
 
 <head>
@@ -118,3 +120,11 @@ if ( $cart_details) {
 </body>
 
 </html>
+
+<?php }else{ ?>
+   
+
+    <div class="alert alert-success">
+  <p> Successfully ordered!! </p>
+    </div>
+  <?php   }  ?>
