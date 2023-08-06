@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Order;
 use Illuminate\Http\Request;
-
+use App\Models\Comment;
+use App\Models\Reply;
 use App\Models\User;
 
 use App\Models\Carts;
@@ -16,9 +17,13 @@ class HomeController extends Controller
 {
     public function redirect(Request $request)
     {
+     
+if(isset($_REQUEST['state'])){
 
-        $type = Auth::user()->usertype;
-        if ($type != 0) {
+    return redirect('/');
+}
+        // $type = Auth::user()->usertype;
+        if(!empty(Auth::user()) && Auth::user()->usertype == 1 ) {
 
             $products = Product::all();
             $total_products = $products->count();
@@ -51,7 +56,8 @@ class HomeController extends Controller
 
 
 
-            return view('admin.home', ['total_products' => $total_products, 'total_orders' => $total_orders, 'total_customers' => $total_customers, 'total_revenue' => $total_revenue, 'orders_delivered' => $ordersDelivered,'orders_pending'=>$orders_pending]);
+
+            return view('admin.home', ['total_products' => $total_products, 'total_orders' => $total_orders, 'total_customers' => $total_customers, 'total_revenue' => $total_revenue, 'orders_delivered' => $ordersDelivered, 'orders_pending' => $orders_pending]);
         } else {
 
             return view('home.userpage');
@@ -62,8 +68,16 @@ class HomeController extends Controller
     {
 
         $products = Product::paginate(3);
+        $comments = Comment::paginate(2);
+        // $replies=null;
+        // foreach($comments as $key=>$val){
 
-        return view('home.userpage', ['products' => $products]);
+        //   $replies[]=  $val->reply()->get();
+        // }
+        // $comm=$comments->reply;
+        
+
+        return view('home.userpage', ['products' => $products, 'comments' => $comments]);
 
     }
 
@@ -120,6 +134,7 @@ class HomeController extends Controller
         }
 
     }
+
 
     public function showcart(Request $request)
     {
@@ -214,13 +229,78 @@ class HomeController extends Controller
 
     }
 
-    public function show_order(Request $request){
+    public function show_order(Request $request)
+    {
+        $user_id = $user_id = Auth::id();
+        $orders = Order::where('user_id', $user_id)->paginate(2);
 
-        $orders=Order::all();
-return view('home.orders',['orders'=>$orders]);
+        return view('home.orders', ['orders' => $orders]);
 
-    } 
+    }
 
+    public function cancel_order(Request $request, $id = false)
+    {
+
+
+        $order = Order::find($id);
+        $order->update(['payment_status' => 'cancelled', 'delivery_status' => 'order cancelled']);
+
+
+        return redirect('show_order');
+    }
+
+    public function add_comment(Request $request)
+    {
+
+
+
+        $request->validate([
+            'comment' => 'required|max:200|min:4',
+
+
+
+        ]);
+        $user_id = Auth::id();
+
+
+        $user = User::find($user_id);
+        $name = $user->name;
+        $comment = $request->comment;
+        $Comment = new Comment;
+
+        $Comment->name = $name;
+        $Comment->comment = $comment;
+        $Comment->user_id = $user->id;
+
+        if ($Comment->save()) {
+
+
+
+            return back();
+        }
+
+    }
+
+    public function add_reply(Request $request ,$id=false)
+    {
+        unset($_REQUEST['_token']);
+        $user_id = Auth::id();
+
+        $coment_id = $id;
+        $Reply = $request->reply;
+        $name = User::find($user_id)->name;
+
+        $reply = new Reply;
+        $reply->name = $name;
+        $reply->comment_id = $coment_id;
+        $reply->user_id = $user_id;
+        $reply->reply = $Reply;
+
+        if ($reply->save()) {
+            return back();
+        }
+
+    }
 
 
 

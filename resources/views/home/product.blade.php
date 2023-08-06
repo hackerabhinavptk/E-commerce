@@ -7,6 +7,7 @@
         </div>
 
         <div class="row">
+            @if(!empty($products))
             @foreach ($products as $key => $val)
                 <div class="col-sm-6 col-md-4 col-lg-4">
                     <div class="box">
@@ -68,11 +69,12 @@
                     </div>
                 </div>
             @endforeach
+           
         </div>
         <div class="pagination" style="margin-top:45px;padding-top:20px;text-align:center;display:flex;justify-content:center;align-items:center">
             {{ $products->links('pagination::bootstrap-4') }}
         </div>
-       
+        @endif
     </div>
 </section>
      
